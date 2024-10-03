@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'polls/base.html' %}
+// kế thừa
+{% block content %}
+    <h1>Đây là template</h1>
+    <p>Chào các bạn {{ name }}</p>
+    <ul>
+        {% for i in list %}
+            {% if i != "not" %}
+                <li>{{ i }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    {% if alludes|length %}
+            {% for i in alludes %}
+                <ul>
+                    <a href="{% url 'detail' i.id %}"><p>{{ i.question_text }}</p></a>
+                    <form action="">
+                    {% for item in i.choice_set.all %}
+                        <label>
+                            <input type="radio" value="{{ item.id }}" name="choice">{{item.choice_text}}<br>
+                        </label>
+                    {% endfor %}
+
+                    </form>
+                </ul>
+        {% endfor %}
+    {% else %}
+        <p>Không có dữ liệu</p>
+    {% endif %}
+
+{% endblock %}

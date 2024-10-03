@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'polls/base.html' %}
+{% block content %}
+
+    {% if choice %}
+        <h1>{{ choice.question_text }}</h1>
+
+        <form action="{% url 'vote' choice.id %}" method="post">
+            {% csrf_token %}
+            {% for item in choice.choice_set.all %}
+                <label>
+                    <input type="radio" value="{{ item.id }}" name="choice">{{ item.choice_text }}<br>
+                </label>
+            {% endfor %}
+            <p><input type="submit" value="send"></p>
+        </form>
+    {% endif %}
+{% endblock %}
+
